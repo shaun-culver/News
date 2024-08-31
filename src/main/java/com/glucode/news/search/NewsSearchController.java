@@ -1,14 +1,14 @@
 package com.glucode.news.search;
 
+import com.glucode.news.search.api.SearchApi;
+import com.glucode.news.search.model.Message;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/search")
-public class NewsSearchController {
+public class NewsSearchController implements SearchApi {
 
     private final NewsSearchService searchService;
 
@@ -17,14 +17,14 @@ public class NewsSearchController {
         this.searchService = searchService;
     }
 
-    @GetMapping
-    public String get() {
-        return searchService.getSuccessResponse();
+    @Override
+    public ResponseEntity<String> searchGet() {
+        return ResponseEntity.ok(searchService.getSuccessResponse());
     }
 
-    @PostMapping
-    public String post() {
-        return searchService.getSuccessResponse();
+    @Override
+    public ResponseEntity<String> searchPost(@RequestBody Message message) {
+        return ResponseEntity.ok(message.getMessage());
     }
 
 }

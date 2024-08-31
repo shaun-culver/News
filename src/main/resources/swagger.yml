@@ -1,0 +1,40 @@
+swagger: '2.0'
+info:
+  description: API for demo application
+  version: 1.0.0
+  title: Demo API
+host: localhost:5555
+basePath: /api
+schemes:
+  - http
+paths:
+  /search:
+    get:
+      summary: Get message
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: A successful response
+          schema:
+            type: string
+    post:
+      summary: Post message
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: message
+          in: body
+          required: true
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+      responses:
+        '200':
+          description: A successful response with message
+          schema:
+            type: string

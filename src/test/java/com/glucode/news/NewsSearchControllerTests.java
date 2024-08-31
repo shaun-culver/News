@@ -1,5 +1,6 @@
 package com.glucode.news;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.glucode.news.search.NewsSearchController;
 import com.glucode.news.search.NewsSearchService;
 
@@ -9,6 +10,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.mockito.Mockito.when;
 
+import com.glucode.news.search.model.Message;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,8 +27,11 @@ public class NewsSearchControllerTests {
     @MockBean
     private NewsSearchService searchService;
 
+    private ObjectMapper objectMapper;
+
     @BeforeEach
     public void setUp() {
+        objectMapper = new ObjectMapper();
         when(searchService.getSuccessResponse()).thenReturn("Success");
     }
 
@@ -39,9 +44,13 @@ public class NewsSearchControllerTests {
 
     @Test
     public void testPostEndpointReturnsSuccess() throws Exception {
-        this.mockMvc.perform(post("/api/search"))
-                .andExpect(status().isOk())
-                .andExpect(content().string("Success"));
-    }
+        Message message = new Message();
+        message.setMessage("Test");
 
+        this.mockMvc.perform(post("/api/search")
+                        .contentType("application/json")
+                        .content(objectMapper.writeValueAsString(message)))
+                .andExpect(status().isOk())
+                .andExpect(content().string("Test"));
+    }
 }
