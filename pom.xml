@@ -47,6 +47,12 @@
             <version>RELEASE</version>
             <scope>test</scope>
         </dependency>
+
+        <dependency>
+            <groupId>io.swagger</groupId>
+            <artifactId>swagger-codegen-maven-plugin</artifactId>
+            <version>2.4.43</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -54,6 +60,32 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+
+            <plugin>
+                <groupId>io.swagger</groupId>
+                <artifactId>swagger-codegen-maven-plugin</artifactId>
+                <version>2.4.24</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <inputSpec>${project.basedir}/src/main/resources/swagger.yml</inputSpec>
+                    <language>spring</language>
+                    <apiPackage>com.glucode.news.search.api</apiPackage>
+                    <modelPackage>com.glucode.news.search.model</modelPackage>
+                    <generateApiTests>false</generateApiTests>
+                    <generateModelTests>false</generateModelTests>
+                    <configOptions>
+                        <interfaceOnly>true</interfaceOnly>
+                        <dateLibrary>legacy</dateLibrary>
+                        <modelPropertyNaming>camelCase</modelPropertyNaming>
+                    </configOptions>
+                </configuration>
             </plugin>
         </plugins>
     </build>
